@@ -1,6 +1,6 @@
-`ifndef WPTR_FULL
-`define WPTR_FULL
-module wptr_full #(
+`ifndef W_PTR_FULL
+`define W_PTR_FULL
+module w_ptr_full #(
   parameter PTR_wIDTH = 8;
   )(
   input winc, wclk, wrst_n,
