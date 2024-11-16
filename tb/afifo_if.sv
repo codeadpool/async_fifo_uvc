@@ -9,25 +9,26 @@ interface afifo_wif #(
   input logic wclk,
   input logic wrst_n
 );
-  // Write side signals
-  logic              winc, wfull;
-  logic [DATA_WIDTH - 1:0] wdata; 
+  // write side signals
+  logic winc;
+  logic DATA_WIDTH -1:0] wdata;
+  logic wfull;
 
-  task write(input logic [DATA_WIDTH - 1:0] data);
-    wdata <= data;
-    winc  <= 1'b1;
-    @(posedge wclk);
-    winc  <= 1'b0;
-  endtask
+  modport mon_port (
+    input wclk,
+    input wrst_n,
+    input winc,
+    input wdata,
+    input wfull
+  );
 
-  clocking wb_cb @(posedge wclk);
-    output wdata, winc;
-    input wfull;
-  endclocking
-
-  modport WR_DRV (clocking wb_cb, input wrst_n);
-  
-  modport WR_MON (input wclk, wrst_n, wdata, winc, wfull);
+  modport init_port (
+    input wclk,
+    input wrst_n,
+    input wfull,
+    output winc,
+    output wdata
+  );
 endinterface
 
 // Read Interface
@@ -42,20 +43,19 @@ interface afifo_rif #(
   logic             rinc, rempty;
   logic [DATA_WIDTH - 1:0] rdata;
 
-  task read(output logic [DATA_WIDTH - 1:0] data_out);
-    rinc     <= 1'b1;
-    @(posedge rclk);
-    data_out <= rdata;
-    rinc     <= 1'b0;
-  endtask
+  modport mon_port (
+    input rclk, 
+    input rrst_n,              
+    input rinc,          
+    input rdata,     
+    input rempty                    
+    );
 
-  clocking rb_cb @(posedge rclk);
-    input rdata, rempty;
-    output rinc;
-  endclocking
-
-  modport RD_DRV (clocking rb_cb, input rrst_n);
-  
-  modport RD_MON (input rclk, rrst_n, rdata, rinc, rempty);
-endinterface
+  modport init_port (
+    input rclk, 
+    input rrst_n,              
+    input rempty,                    
+    output rinc                      
+  );
+  endinterface
 `endif
