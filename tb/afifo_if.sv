@@ -10,9 +10,8 @@ interface afifo_wif #(
   input logic wrst_n
 );
   // write side signals
-  logic winc;
+  logic             winc,wfull;
   logic DATA_WIDTH -1:0] wdata;
-  logic wfull;
 
   modport mon_port (
     input wclk,
@@ -22,12 +21,12 @@ interface afifo_wif #(
     input wfull
   );
 
-  modport init_port (
+  modport drv_port (
     input wclk,
     input wrst_n,
     input wfull,
-    output winc,
-    output wdata
+    output wdata,
+    output winc
   );
 endinterface
 
@@ -51,10 +50,11 @@ interface afifo_rif #(
     input rempty                    
     );
 
-  modport init_port (
+  modport drv_port (
     input rclk, 
     input rrst_n,              
     input rempty,                    
+    input rdata,
     output rinc                      
   );
   endinterface

@@ -2,31 +2,37 @@
 `define AFIFO_RMONITOR
 class afifo_rmonitor extends uvm_monitor;
   
-  virtual afifo_rif rvif;
-  uvm_analysis_port #(afifo_r_txn) ap;
+  virtual afifo_rmonitor_bfm m_bfm;
+  uvm_analysis_port #(afifo_rtxn) ap;
   
-  `uvm_component_utils(afifo_rmonitor);
+  `uvm_component_utils(afifo_rmonitor)
 
   function new(string name = "afifo_rmonitor", uvm_component parent);
     super.new(name, parent);
+    ap =new("ap", this);
   endfunction
 
   virtual function void build_phase(uvm_phase phase);
     super.build_phase(phase);
-    if(!uvm_config_db#(virtual afifo_if)::get(this, "", "rvif", rvif))
-      `uvm_fatal("afifo_r_monitor", "virtual interface hasn't setup for rvif")
+    if(!uvm_config_db#(virtual afifo_rmonitor_bfm)::get(this, "", "bfm", m_bfm))
+      `uvm_fatal("afifo_rmonitor", "Failed to get BFM")
   endfunction : build_phase
-  
-  task run_phase(uvm_phase phase);
-    forever begin
-      do_monitor();
-    end
-  endtask
+ 
+  virtual function void connect_phase(uvm_phase phase);
+    super.connect_phase(phase);
+    m_bfm.set_proxy(this);
+  endfunction : connect_phase
 
-  extern task do_monitor();
+  task run_phase(uvm_phase phase);
+    m_bfm.monitor_read();
+  endtask
+  
+  function void write(afifo_rtxn tr);
+    ap.write(tr); 
+  endfunction
 endclass
 
-task afifo_r_monitor::do_monitor();
+/*task afifo_r_monitor::do_monitor();
   afifo_rtxn tr;
 
   @(posedge rvif.clk);
@@ -37,6 +43,6 @@ task afifo_r_monitor::do_monitor();
     `uvm_info("COLLECT", $sformat("Collected TXN: %s," tr.convert2string()), UVM_HIGH)
     ap.write(tr);
   end
-endtask
+endtask*/
 
 `endif
