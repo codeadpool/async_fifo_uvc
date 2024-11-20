@@ -3,7 +3,7 @@
 class afifo_wrdriver extends uvm_driver #(afifo_wrtxn);
   
   virtual afifo_wrdriver_bfm m_bfm;
-  `uvm_component_utils(afifo_wrdriver);
+  `uvm_component_utils(afifo_wrdriver)
 
   function new(string name = "afifo_wrdriver", uvm_component parent);
     super.new(name, parent);

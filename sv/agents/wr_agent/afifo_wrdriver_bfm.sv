@@ -20,7 +20,7 @@ interface afifo_wrdriver_bfm#(
       @(posedge bus.wclk);
       bus.winc <='b0;
     end else begin
-      proxy.notify_null();
+      proxy.notify_full();
     end
   endtask
 endinterface
