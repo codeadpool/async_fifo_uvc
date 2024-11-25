@@ -24,7 +24,8 @@ class afifo_env extends uvm_env;
   virtual function void connect_phase(uvm_phase phase);
     super.connect_phase(phase);
     
-
+    vseqr.wr_seqr =wr_agent.m_sequencer;
+    vseqr.rd_seqr =rd_agent.m_sequencer;
   endfunction : connect_phase
   
 endclass
