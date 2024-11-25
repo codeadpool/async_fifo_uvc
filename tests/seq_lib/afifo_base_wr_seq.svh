@@ -1,8 +1,8 @@
-class afifo_base_wrseq extends uvm_sequence #(afifo_wrtxn);
+class afifo_base_wr_seq extends uvm_sequence #(afifo_wr_txn);
   
-  `uvm_object_utils(afifo_base_wrseq)
+  `uvm_object_utils(afifo_base_wr_seq)
 
-  function new(string name = "afifo_base_wrseq");
+  function new(string name = "afifo_base_wr_seq");
     super.new(name);
   endfunction
 
@@ -25,22 +25,22 @@ class afifo_base_wrseq extends uvm_sequence #(afifo_wrtxn);
   endtask
 endclass
 
-class afifo_npkt_wrseq extends uvm_sequence;
+class afifo_npkt_wr_seq extends uvm_base_wr_seq;
   
-  `uvm_object_utils(afifo_npkt_wrseq)
+  `uvm_object_utils(afifo_npkt_wr_seq)
 
-  function new(string name = "afifo_npkt_wrseq");
+  function new(string name = "afifo_npkt_wr_seq");
     super.new(name);
   endfunction
 
   virtual task body();
-    afifo_wrtxn req;
-    `uvm_info(get_type_name(), "Executing npkt_wrseq", UVM_NONE)
+    afifo_wr_txn req;
+    `uvm_info(get_type_name(), "Executing npkt_wr_seq", UVM_NONE)
     
     repeat (10) begin
-      req =afifo_wrtxn::type_id::create("req", this);
+      req =afifo_wr_txn::type_id::create("req", this);
       assert(req.randomize()) else
-        `uvm_fatal("afifo_base_wrseq", "Failed to randomize req")
+        `uvm_fatal("afifo_base_wr_seq", "Failed to randomize req")
       `uvm_do(req) 
     end
   endtask

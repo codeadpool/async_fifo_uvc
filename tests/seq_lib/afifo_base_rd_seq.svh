@@ -1,8 +1,8 @@
-class afifo_base_rseq extends uvm_sequence #(afifo_rtxn);
+class afifo_base_rd_seq extends uvm_sequence #(afifo_rd_txn);
   
-  `uvm_object_utils(afifo_base_rseq)
+  `uvm_object_utils(afifo_base_rd_seq)
 
-  function new(string name = "afifo_base_rseq");
+  function new(string name = "afifo_base_rd_seq");
     super.new(name);
   endfunction
 
@@ -25,22 +25,22 @@ class afifo_base_rseq extends uvm_sequence #(afifo_rtxn);
   endtask
 endclass
 
-class afifo_npkt_rseq extends uvm_sequence;
+class afifo_npkt_rseq extends afifo_base_rd_seq;
   
-  `uvm_object_utils(afifo_npkt_rseq)
+  `uvm_object_utils(afifo_npkt_rd_seq)
 
-  function new(string name = "afifo_npkt_rseq");
+  function new(string name = "afifo_npkt_rd_seq");
     super.new(name);
   endfunction
 
   virtual task body();
-    afifo_rtxn req;
-    `uvm_info(get_type_name(), "Executing npkt_rseq", UVM_NONE)
+    afifo_rd_txn req;
+    `uvm_info(get_type_name(), "Executing npkt_rd_seq", UVM_NONE)
 
     repeat (10) begin
-      req =afifo_rtxn::type_id::create("req", this);
+      req =afifo_rd_txn::type_id::create("req", this);
       assert(req.randomize()) else
-        `uvm_fatal("afifo_base_rseq", "Failed to randomize req")
+        `uvm_fatal("afifo_base_rd_seq", "Failed to randomize req")
       `uvm_do(req) 
     end
   endtask

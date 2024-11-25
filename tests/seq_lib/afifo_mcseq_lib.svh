@@ -5,8 +5,8 @@ class afifo_mcseq_lib extends uvm_sequence;
   `uvm_object_utils(afifo_mcseq_lib)
   `uvm_declare_p_sequencer(afifo_mcseqr)
 
-  afifo_npkt_wrseqr npkt_wrseq;
-  afifo_npkt_rseqr   npkt_rseq;
+  afifo_npkt_wr_seqr npkt_wr_seq;
+  afifo_npkt_rd_seqr npkt_rd_seq;
 
   function new(string name = "afifo_mcseq_lib");
     super.new(name);
@@ -35,8 +35,8 @@ class afifo_mcseq_lib extends uvm_sequence;
   task body();
     `uvm_info("afifo_mcseq_lib", "Executing mc_seq", UVM_MEDIUM)
      
-    `uvm_do_on(npkt_wrseq, p_sequencer.wrseqr)
-    `uvm_do_on(npkt_rseq, p_sequencer.rseqr  )
+    `uvm_do_on(npkt_wr_seq, p_sequencer.wr_seqr)
+    `uvm_do_on(npkt_rd_seq, p_sequencer.rd_seqr)
   endtask
 endclass
 `endif
