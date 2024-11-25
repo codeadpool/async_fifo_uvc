@@ -1,21 +1,21 @@
-`ifndef AFIFO_RMONITOR
-`define AFIFO_RMONITOR
-class afifo_rmonitor extends uvm_monitor;
+`ifndef AFIFO_RD_MONITOR
+`define AFIFO_RD_MONITOR
+class afifo_rd_monitor extends uvm_monitor;
   
-  virtual afifo_rmonitor_bfm m_bfm;
-  uvm_analysis_port #(afifo_rtxn) ap;
+  virtual afifo_rd_monitor_bfm m_bfm;
+  uvm_analysis_port #(afifo_rd_txn) ap;
   
-  `uvm_component_utils(afifo_rmonitor)
+  `uvm_component_utils(afifo_rd_monitor)
 
-  function new(string name = "afifo_rmonitor", uvm_component parent);
+  function new(string name = "afifo_rd_monitor", uvm_component parent);
     super.new(name, parent);
     ap =new("ap", this);
   endfunction
 
   virtual function void build_phase(uvm_phase phase);
     super.build_phase(phase);
-    if(!uvm_config_db#(virtual afifo_rmonitor_bfm)::get(this, "", "bfm", m_bfm))
-      `uvm_fatal("afifo_rmonitor", "Failed to get BFM")
+    if(!uvm_config_db#(virtual afifo_rd_monitor_bfm)::get(this, "", "bfm", m_bfm))
+      `uvm_fatal("afifo_rd_monitor", "Failed to get BFM")
   endfunction : build_phase
  
   virtual function void connect_phase(uvm_phase phase);
@@ -27,13 +27,13 @@ class afifo_rmonitor extends uvm_monitor;
     m_bfm.monitor_read();
   endtask
   
-  function void write(afifo_rtxn tr);
+  function void write(afifo_rd_txn tr);
     ap.write(tr); 
   endfunction
 endclass
 
-/*task afifo_r_monitor::do_monitor();
-  afifo_rtxn tr;
+/*task afifo_rd_monitor::do_monitor();
+  afifo_rd_txn tr;
 
   @(posedge rvif.clk);
   if(rvif.rinc && !rvif.rempty)begin

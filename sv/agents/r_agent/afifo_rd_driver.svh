@@ -1,20 +1,21 @@
-`ifndef AFIFO_RDRIVER
-`define AFIFO_RDRIVER
-class afifo_rdriver extends uvm_driver #(afifo_rtxn);
+`ifndef AFIFO_RD_DRIVER
+`define AFIFO_RD_DRIVER
+class afifo_rd_driver extends uvm_driver #(afifo_rd_txn);
   
-  virtual afifo_rdriver_bfm m_bfm;
+  virtual afifo_rd_driver_bfm m_bfm;
 
-  `uvm_component_utils(afifo_rdriver)
+  `uvm_component_utils(afifo_rd_driver)
 
-  function new(string name = "afifo_rdriver", uvm_component parent);
+  function new(string name = "afifo_rd_driver", uvm_component parent);
     super.new(name, parent);
   endfunction
 
   virtual function void build_phase(uvm_phase phase);
     super.build_phase(phase);
     // CIFV, field is name(key to lookup inthe db), Value is data
-    if(!uvm_config_db#(virtual afifo_rdriver_bfm)::get(this, "", "bfm", m_bfm))
-      `uvm_fatal("afifo_rdriver", "Failed to get BFM")
+    if(!uvm_config_db#(virtual afifo_rd_driver_bfm)::get(this, "", "bfm", m_bfm))
+      `uvm_fatal("afifo_rd_driver", "Failed to get BFM")
+    // which is better get_full_name or name???
   endfunction : build_phase 
 
   virtual function void connect_phase(uvm_phase phase);
@@ -27,21 +28,22 @@ class afifo_rdriver extends uvm_driver #(afifo_rtxn);
   endfunction
   
   extern task run_phase(uvm_phase phase);
+
   function void notify_empty();
-    `uvm_info("afifo_rdriver", "FIFO is empty", UVM_MEDIUM)
+    `uvm_info("afifo_rd_driver", "FIFO is empty", UVM_MEDIUM)
   endfunction
 endclass
 
-task afifo_rdriver::run_phase(uvm_phase phase);
+task afifo_rd_driver::run_phase(uvm_phase phase);
   forever begin
     // ISSUE: what is the goal now, do nothing?
     seq_item_port.get(req);
-    if(!bfm.is_emtpy())begin
+    if(!m_bfm.is_emtpy())begin
       m_bfm.do_read(read_data);
       req.rdata =read_data;
-      `uvm_info("afifo_rdriver", $sformatf("Read data: %0h", read_data), UVM_NONE)
+      `uvm_info("afifo_rd_driver", $sformatf("Read data: %0h", read_data), UVM_NONE)
     end else begin
-      `uvm_info("afifo_rdriver", "FIFO is empty, Skipping read", UVM_MEDIUM)
+      `uvm_info("afifo_rd_driver", "FIFO is empty, Skipping read", UVM_MEDIUM)
     end
     seq_item_port.item_done();
   end

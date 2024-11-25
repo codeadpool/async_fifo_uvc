@@ -2,7 +2,7 @@
 `define FIFO_INTERFACES
 
 // Write Interface
-interface afifo_wif #(
+interface afifo_wr_if #(
   parameter DATA_WIDTH = 32,
   parameter ADDR_WIDTH = 8
 )(
@@ -31,7 +31,7 @@ interface afifo_wif #(
 endinterface
 
 // Read Interface
-interface afifo_rif #(
+interface afifo_rd_if #(
   parameter DATA_WIDTH = 32,
   parameter ADDR_WIDTH = 8
 )(

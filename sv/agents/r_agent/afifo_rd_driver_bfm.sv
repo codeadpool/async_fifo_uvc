@@ -1,14 +1,14 @@
-`ifndef AFIFO_RDRIVER_BFM
-`define AFIFO_RDRIVER_BFM
-interface afifo_rdriver_bfm#(
+`ifndef AFIFO_RD_DRIVER_BFM
+`define AFIFO_RD_DRIVER_BFM
+interface afifo_rd_driver_bfm#(
   parameter DATA_WIDTH =32,
   parameter ADDR_WIDTH =8
-  )(afifo_rif.drv_port bus);// can drive RINC
+  )(afifo_rd_if.drv_port bus);// can drive RINC
 
   import afifo_pkg::*;
-  afifo_rdriver proxy;
+  afifo_rd_driver proxy;
 
-  function set_proxy(afifo_rdriver p);
+  function set_proxy(afifo_rd_driver p);
     proxy =p; 
   endfunction
 
