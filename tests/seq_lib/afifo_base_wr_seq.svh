@@ -25,7 +25,7 @@ class afifo_base_wr_seq extends uvm_sequence #(afifo_wr_txn);
   endtask
 endclass
 
-class afifo_npkt_wr_seq extends uvm_base_wr_seq;
+class afifo_npkt_wr_seq extends afifo_base_wr_seq;
   
   `uvm_object_utils(afifo_npkt_wr_seq)
 
