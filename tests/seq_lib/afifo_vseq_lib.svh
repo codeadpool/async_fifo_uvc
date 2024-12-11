@@ -1,12 +1,10 @@
-`ifndef AFIFO_MCSEQ_LIB
-`define AFIFO_MCSEQ_LIB
-class afifo_mcseq_lib extends uvm_sequence;
+class afifo_vseq_base extends uvm_sequence;
+  // vseq_base has handles for each of the target sequencers
   
   `uvm_object_utils(afifo_mcseq_lib)
-  `uvm_declare_p_sequencer(afifo_mcseqr)
 
-  afifo_npkt_wr_seqr npkt_wr_seq;
-  afifo_npkt_rd_seqr npkt_rd_seq;
+  uvm_sequencer#(afifo_wr_txn) wr_seqr;
+  uvm_sequencer#(afifo_rd_txn) rd_seqr;
 
   function new(string name = "afifo_mcseq_lib");
     super.new(name);
@@ -31,12 +29,21 @@ class afifo_mcseq_lib extends uvm_sequence;
       `uvm_info(get_type_name(), "drop objection", UVM_MEDIUM)
     end
   endtask : post_body
+endclass
+
+class afifo_full_empty_vseq extends afifo_vseq_base;
+
+  `uvm_object_utils(afifo_full_empty_vseq)
+
+  function new(string name = "afifo_full_empty_vseq");
+    super.new(name); 
+  endfunction
 
   task body();
-    `uvm_info("afifo_mcseq_lib", "Executing mc_seq", UVM_MEDIUM)
-     
-    `uvm_do_on(npkt_wr_seq, p_sequencer.wr_seqr)
-    `uvm_do_on(npkt_rd_seq, p_sequencer.rd_seqr)
+    afifo_npkt_wr_seq wr_seq = afifo_npkt_wr_seq::type_id::create("wr_seq", this);
+    afifo_npkt_rd_seq rd_seq = afifo_npkt_rd_seq::type_id::create("rd_seq", this);
+
+    wr_seq.start(wr_seqr);
+    rd_seq.start(rd_seqr);
   endtask
 endclass
-`endif
