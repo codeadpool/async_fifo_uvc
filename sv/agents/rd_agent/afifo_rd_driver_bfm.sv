@@ -32,9 +32,13 @@ interface afifo_rd_driver_bfm#(
     return bus.rempty; 
   endfunction
 
-  task automatic wait_fr_rst ();
-    @(negedge bus.rrst_n);
-    @(posedge bus.rrst_n);
+  task do_reset;
+    @(posedge bus.rclk);
+    bus.rrst_n <= 'b0;
+    bus.rinc   <= 'b0;
+
+    @(posedge bus.rclk);
+    bus.rrst_n <= 'b1;
   endtask
 endinterface 
 `endif

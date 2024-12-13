@@ -12,6 +12,10 @@ interface afifo_wr_driver_bfm#(
     proxy =p; 
   endfunction
 
+  function is_full ();
+    return bus.wfull; 
+  endfunction
+
   task do_write (input [DATA_WIDTH -1:0] write_data);
     @(posedge bus.wclk);
     if(!bus.wfull)begin
@@ -22,6 +26,15 @@ interface afifo_wr_driver_bfm#(
     end else begin
       proxy.notify_full();
     end
+  endtask
+
+  task do_reset ();
+    @(posedge bus.wclk);
+    bus.wrst_n <= 'b0;
+    bus.winc   <= 'b0;
+    
+    @(posedge bus.wclk);
+    bus.wrst_n <= 'b1;
   endtask
 endinterface
 `endif
