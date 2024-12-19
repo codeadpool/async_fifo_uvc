@@ -17,4 +17,5 @@ module clkgen #(
       clk = ~clk;
     end
   end
-endmodule`endif
+endmodule
+`endif

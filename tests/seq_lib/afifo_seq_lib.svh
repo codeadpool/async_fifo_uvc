@@ -39,16 +39,15 @@ class afifo_npkt_wr_seq extends afifo_base_seq;
     // Retriving FIFO_DEPTH from the config db
     if(!uvm_config_db#(int)::get(this, "", FIFO_DEPTH, FIFO_DEPTH))
       `uvm_fatal("afifo_npkt_wr_seq", "Failed to Retrieve FIFO_DEPTH from config_db")
+    `uvm_info(get_type_name(), "Executing npkt_wr_seq", UVM_NONE)
 
     `uvm_info("afifo_npkt_wr_seq", $sformatf("Running Sequence with FIFO_DEPTH: %d", FIFO_DEPTH), UVM_MEDIUM)
     
-    afifo_txn req;
-    `uvm_info(get_type_name(), "Executing npkt_wr_seq", UVM_NONE)
-    
     repeat (FIFO_DEPTH) begin
-      req =afifo_txn::type_id::create("req", this);
+      afifo_txn req =afifo_txn::type_id::create("req", this);
       assert(req.randomize() with {winc ==1; rinc ==0;}) else
         `uvm_fatal("afifo_base_seq", "Failed to randomize req")
+
       `uvm_do(req) 
     end
   endtask
@@ -67,13 +66,13 @@ class afifo_npkt_rd_seq extends afifo_base_seq;
     // Retriving FIFO_DEPTH from the config db
     if(!uvm_config_db#(int)::get(this, "", FIFO_DEPTH, FIFO_DEPTH))
       `uvm_fatal("afifo_npkt_rd_seq", "Failed to Retrieve FIFO_DEPTH from config_db")
-    afifo_txn req;
     `uvm_info(get_type_name(), "Executing npkt_rd_seq", UVM_NONE)
 
     repeat (FIFO_DEPTH) begin
-      req =afifo_txn::type_id::create("req", this);
+      afifo_txn req =afifo_txn::type_id::create("req", this);
       assert(req.randomize() with {winc ==0; rinc ==1;}) else
         `uvm_fatal("afifo_base_seq", "Failed to randomize req")
+
       `uvm_do(req) 
     end
   endtask
