@@ -217,8 +217,6 @@ class afifo_backpressure_vseq extends uvm_sequence;
   endtask
 
   task get_fifo_status(output bit full, output bit empty);
-    // Implement this task to read FIFO status flags
-    // This could involve reading from the DUT or from a predictor in the scoreboard
   endtask
 
 endclass
