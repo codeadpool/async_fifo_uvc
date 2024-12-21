@@ -38,7 +38,7 @@ class init_vseq_from_test extends afifo_test_base;
     if(!uvm_config_db#(uvm_object_wrapper)::get(this, "", "vseq_type", seq_wrapper))
       `uvm_fatal("CFG_ERR", "No virtual sequence type isn't specified for the test")
 
-    m_vseq = afifo_vseq_base::type_id::create("m_vseq");
+    vseq = afifo_vseq_base::type_id::create("vseq");
 
     if(!$cast(vseq, seq_wrapper.create_object("vseq")))
       `uvm_fatal("CFG_ERR", "Virutal sequence object is not of type afifo_vseq_base")
@@ -48,26 +48,61 @@ class init_vseq_from_test extends afifo_test_base;
     phase.raise_objection(this);
     
     //intilizing thje virtual sequence before the start of virtual seqs.
-    init_vseq(vseq);
-    m_vseq.start(null); //no target sequencer
+    init_vseq(m_vseq);
+    vseq.start(null); //no target sequencer
 
     phase.drop_objection(this);
   endtask : run_phase
 endclass
 
-class afifo_backpressure_test extends afifo_test_base;
-  
+class afifo_backpressure_test extends afifo_test;
   `uvm_component_utils(afifo_backpressure_test)
 
-  function new(string name = "afifo_backpressure_test", uvm_component parent);
+  function new(string name = "afifo_backpressure_test", uvm_component parent = null);
     super.new(name, parent);
   endfunction
 
   virtual task run_phase(uvm_phase phase);
+    phase.raise_objection(this);
+    
+    afifo_backpressure_vseq vseq = afifo_backpressure_vseq::type_id::create("vseq");
+    init_vseq(m_vseq);
+    vseq.start(null);
 
+    phase.drop_objection(this);
+  endtask : run_phase
+endclass
+
+class afifo_full_empty_test extends afifo_test;
+  `uvm_component_utils(afifo_full_empty_test)
+
+  function new(string name = "afifo_full_empty_test", uvm_component parent = null);
+    super.new(name, parent);
+  endfunction
+  
+  virtual task run_phase(uvm_phase phase);
     phase.raise_objection(this);
 
-    init_vseq(vseq);
+    afifo_full_empty_vseq vseq = afifo_full_empty_vseq::type_id::create("vseq");
+    init_vseq(m_vseq);
+    vseq.start(null);
+
+    phase.drop_objection(this);
+  endtask : run_phase
+endclass
+
+class afifo_reset_test extends afifo_test;
+  `uvm_component_utils(afifo_reset_test)
+
+  function new(string name = "afifo_reset_test", uvm_component parent = null);
+    super.new(name, parent);
+  endfunction
+  
+  virtual task run_phase(uvm_phase phase);
+    phase.raise_objection(this);
+
+    afifo_rst_vseq vseq = afifo_rst_vseq::type_id::create("vseq");
+    init_vseq(m_vseq);
     vseq.start(null);
 
     phase.drop_objection(this);

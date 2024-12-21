@@ -15,5 +15,12 @@
 1. Virtual sequencers are best reserved for cases where tight synchronization between multiple agents is essential.
 2. Virtual sequences can be designed to work with different sets of sequencers without being tightly coupled to any specific implementation, promoting reusability.
 
+#### pure methods:
+2. pure virtual methods: is declared in baseclass, but doesn't have an implementation in that class
+- derived classes must override and provide an implementation otherwise, they too will be considered abstract and can't be instantiated (keyword: pure)
+- A class containing one or more pure virtual functionmethods is an abstract class and can't be instantiated directly
+- A pure virtual method serves as a placeholder for a method that must be implemented by derived classes
+- A class inheriting from the abstract class must implement all its pure virutal methods to become concerete
+
 #### general: (things to remember)
 1. directly instantiating everything creates tight coupling.
