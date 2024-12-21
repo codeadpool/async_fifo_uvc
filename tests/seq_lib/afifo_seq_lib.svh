@@ -44,7 +44,7 @@ class afifo_npkt_wr_seq extends afifo_base_seq;
     `uvm_info("afifo_npkt_wr_seq", $sformatf("Running Sequence with FIFO_DEPTH: %d", FIFO_DEPTH), UVM_MEDIUM)
     
     repeat (FIFO_DEPTH) begin
-      afifo_txn req =afifo_txn::type_id::create("req", this);
+      afifo_txn req =afifo_txn::type_id::create("req");
       assert(req.randomize() with {winc ==1; rinc ==0;}) else
         `uvm_fatal("afifo_base_seq", "Failed to randomize req")
 
@@ -69,7 +69,7 @@ class afifo_npkt_rd_seq extends afifo_base_seq;
     `uvm_info(get_type_name(), "Executing npkt_rd_seq", UVM_NONE)
 
     repeat (FIFO_DEPTH) begin
-      afifo_txn req =afifo_txn::type_id::create("req", this);
+      afifo_txn req =afifo_txn::type_id::create("req");
       assert(req.randomize() with {winc ==0; rinc ==1;}) else
         `uvm_fatal("afifo_base_seq", "Failed to randomize req")
 
@@ -89,7 +89,7 @@ class afifo_rst_seq extends uvm_sequence #(afifo_txn);
   endfunction
 
   task body();
-    afifo_txn req = afifo_txn::type_id::create("req", this);
+    afifo_txn req = afifo_txn::type_id::create("req");
 
     // Write some data to the FIFO
     assert(req.randomize() with {winc == 1; rinc == 0;});

@@ -19,6 +19,10 @@ class afifo_vseq_base extends uvm_sequence;
       `uvm_info(get_type_name(), "raise objection", UVM_MEDIUM)
     end
   endtask : pre_body
+
+  virtual task body();
+    `uvm_fatal("afifo_vseq_lib", "Base virtual sequence should not be used directly")
+  endtask
     
   task post_body();
     uvm_phase phase;
@@ -66,7 +70,7 @@ class afifo_backpressure_vseq extends uvm_vseq_base;
 
     if(!afifo_full) begin
       repeat (num_writes) begin
-        afifo_npkt_wr_seq wr_seq = afifo_npkt_wr_seq::type_id::create("wr_seq", this);
+        afifo_npkt_wr_seq wr_seq = afifo_npkt_wr_seq::type_id::create("wr_seq");
         wr_seq.start(wr_seqr);
       end
     end else 
@@ -74,7 +78,7 @@ class afifo_backpressure_vseq extends uvm_vseq_base;
 
     if(!afifo_empty) begin
       repeat (num_reads) begin
-        afifo_npkt_rd_seq rd_seq = afifo_npkt_rd_seq::type_id::create("rd_seq", this); 
+        afifo_npkt_rd_seq rd_seq = afifo_npkt_rd_seq::type_id::create("rd_seq"); 
         rd_seq.start(rd_seqr);
       end
     end else 
@@ -105,7 +109,7 @@ class afifo_rst_vseq extends uvm_sequence #(afifo_txn);
   endfunction
 
   task body();
-    afifo_txn req = afifo_txn::type_id::create("req", this);
+    afifo_txn req = afifo_txn::type_id::create("req");
 
     // Pre-Reset Checks
     // Check initial FIFO state (should be empty)
