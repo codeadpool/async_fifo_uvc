@@ -1,4 +1,4 @@
-# Project Description: Asynchronous FIFO Verification
+# Asynchronous FIFO Verification
 
 This project demonstrates the verification of an Asynchronous FIFO design using UVM. It emphasizes an efficient and scalable approach by leveraging the "Dual Top" methodology.
 
@@ -7,7 +7,7 @@ This project demonstrates the verification of an Asynchronous FIFO design using 
 The project is divided into two primary modules:
 
 * **`hdl_top`:**  Encapsulates the Design Under Test (DUT) and Bus Functional Models (BFMs). The BFMs provide the hardware interface for interacting with the FIFO.
-* **`hvl_top`:** Houses the UVM testbench, including agents, drivers, and monitors. These components orchestrate the test sequence and verify the DUT's behavior. Communication with the `hdl_top` occurs through virtual interface handles.
+* **`hvl_top`:** Houses the UVM testbench, including agents, drivers, and monitors. These components orchestrate the test sequence and verify the DUT's behavior. Communication with the `hdl_top` occurs through virtual interface handles via remote-proxy method.
 
 ```
 ├── docs
