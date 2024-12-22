@@ -31,22 +31,17 @@ module tb_top#(
     uvm_config_db#(virtual afifo_rd_if)::set(null, "*", "rd_vif", rd_if);
     
     // For backpressure test
-    uvm_config_db#(uvm_config_wrapper)::set(null, "*.afifo_test", "vseq_type", 
-                                        afifo_backpressure_vseq::type_id::get())
+    // uvm_config_db#(uvm_config_wrapper)::set(null, "*.afifo_test", "vseq_type", 
+    //                                     afifo_backpressure_vseq::type_id::get())
 
     // For full/empty test
-    uvm_config_db#(uvm_object_wrapper)::set(null, "*.afifo_test", "vseq_type", 
-                                        afifo_full_empty_vseq::type_id::get());
+    // uvm_config_db#(uvm_object_wrapper)::set(null, "*.afifo_test", "vseq_type",
+    //                                     afifo_full_empty_vseq::type_id::get());
 
     // For reset test
-    uvm_config_db#(uvm_object_wrapper)::set(null, "*.afifo_test", "vseq_type", 
-                                        afifo_reset_vseq::type_id::get());;
+    // uvm_config_db#(uvm_object_wrapper)::set(null, "*.afifo_test", "vseq_type", 
+    //                                     afifo_reset_vseq::type_id::get());;
 
-    run_test("init_vseq_from_test");
-  end
-
-  initial begin
-    rst_n = 0;
-    #100ns rst_n = 1;
+    run_test();
   end
 endmodule

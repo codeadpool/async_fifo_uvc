@@ -1,6 +1,14 @@
-# async_fifo_uvc
+# Project Description: Asynchronous FIFO Verification
 
-## File Structure:
+This project demonstrates the verification of an Asynchronous FIFO design using UVM. It emphasizes an efficient and scalable approach by leveraging the "Dual Top" methodology.
+
+## Project Structure
+
+The project is divided into two primary modules:
+
+* **`hdl_top`:**  Encapsulates the Design Under Test (DUT) and Bus Functional Models (BFMs). The BFMs provide the hardware interface for interacting with the FIFO.
+* **`hvl_top`:** Houses the UVM testbench, including agents, drivers, and monitors. These components orchestrate the test sequence and verify the DUT's behavior. Communication with the `hdl_top` occurs through virtual interface handles.
+
 ```
 ├── docs
 ├── dut
@@ -42,3 +50,22 @@
     │   └── afifo_mcseq_lib.svh
     └── src
 ```
+
+## Key Verification Methodologies
+
+* **HDL and HVL:**
+    * **HDL:**  Models the timed behavior of the asynchronous FIFO at the pin level using Verilog or SystemVerilog.
+    * **HVL:** Employs SystemVerilog with UVM to create a higher-level, untimed verification environment focused on functionality.
+
+* **TLM (Transaction-Level Modeling):**  Abstracts read/write operations on the FIFO, enabling efficient communication between UVM agents and BFMs.
+
+* **Virtual Interface Handling:**  Facilitates communication between the `hdl_top` and `hvl_top`. Virtual interface references are passed through the `uvm_config_db`, allowing UVM components (agents, monitors, drivers) to access and control the BFM interfaces in the `hdl_top`.
+
+* **Core-Proxy Method (Optional):**  For advanced scenarios, this method (co-modeling or co-emulation) can be used to bridge the gap between the high-level verification environment and the low-level design.
+
+## Methodology Benefits
+
+* **Separation of Concerns:**  Clear division between design (`hdl_top`) and verification (`hvl_top`) promotes modularity and allows independent development by separate teams.
+
+* **Synthesizability and Acceleration:** The `hdl_top` is designed to be synthesizable, enabling hardware acceleration and co-emulation for faster and more efficient simulations. This scalability is crucial for complex designs.
+
