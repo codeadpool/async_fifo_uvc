@@ -19,5 +19,5 @@ package tb_params_pkg;
   typedef afifo_wr_txn #(afifo::DATA_WIDTH) afifo_wr_txn_t;
   typedef afifo_rd_txn #(afifo::DATA_WIDTH) afifo_rd_txn_t;
 
-  typedef afifo_wr_agent #()
+  typedef afifo_wr_agent #();
 endpackage
