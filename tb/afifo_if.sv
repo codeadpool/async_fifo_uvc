@@ -6,12 +6,12 @@ interface afifo_wr_if #(
   parameter DATA_WIDTH = 32,
   parameter ADDR_WIDTH = 8
 )(
-  input logic wclk,
-  input logic wrst_n
+  input wclk,
+  input wrst_n,
+  input winc, wfull,
+  input [DATA_WIDTH -1:0] wdata
 );
   // write side signals
-  logic             winc,wfull;
-  logic DATA_WIDTH -1:0] wdata;
 
   modport mon_port (
     input wclk,
@@ -35,12 +35,12 @@ interface afifo_rd_if #(
   parameter DATA_WIDTH = 32,
   parameter ADDR_WIDTH = 8
 )(
-  input logic rclk,
-  input logic rrst_n
+  input rclk,
+  input rrst_n,
+  input rinc, rempty,
+  input [DATA_WIDTH -1:0] rdata
 );
   // Read side signals
-  logic             rinc, rempty;
-  logic [DATA_WIDTH - 1:0] rdata;
 
   modport mon_port (
     input rclk, 

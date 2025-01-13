@@ -16,8 +16,10 @@ interface afifo_rd_driver_bfm#(
   task do_read(output logic [DATA_WIDTH -1:0] dout);
     if(!bus.rempty) begin
       bus.rinc <=1'b1;
+
       @(posedge bus.rclk);
       dout <=bus.rdata;
+
       @(posedge bus.rclk);
       bus.rinc <=1'b0;
     end else begin

@@ -2,7 +2,7 @@
 `define AFIFO_RD_DRIVER
 class afifo_rd_driver extends uvm_driver #(afifo_rd_txn);
   
-  virtual afifo_rd_driver_bfm m_bfm;
+  virtual afifo_rd_driver_bfm bfm;
 
   `uvm_component_utils(afifo_rd_driver)
 
@@ -13,14 +13,15 @@ class afifo_rd_driver extends uvm_driver #(afifo_rd_txn);
   virtual function void build_phase(uvm_phase phase);
     super.build_phase(phase);
     // CIFV, field is name(key to lookup inthe db), Value is data
-    if(!uvm_config_db#(virtual afifo_rd_driver_bfm)::get(this, "", "bfm", m_bfm))
+    if(!uvm_config_db#(virtual afifo_rd_driver_bfm)::get(this, "", "bfm", bfm))
       `uvm_fatal("afifo_rd_driver", "Failed to get BFM")
     // which is better get_full_name or name???
   endfunction : build_phase 
 
   virtual function void connect_phase(uvm_phase phase);
     super.connect_phase(phase);
-    m_bfm.set_proxy(this);
+
+    bfm.set_proxy(this);
   endfunction : connect_phase
 
   function void start_of_simulation_phase (uvm_phase phase);
@@ -38,8 +39,8 @@ task afifo_rd_driver::run_phase(uvm_phase phase);
   forever begin
     // ISSUE: what is the goal now, do nothing?
     seq_item_port.get(req);
-    if(!m_bfm.is_emtpy())begin
-      m_bfm.do_read(read_data);
+    if(!bfm.is_emtpy())begin
+      bfm.do_read(read_data);
       req.rdata =read_data;
       `uvm_info("afifo_rd_driver", $sformatf("Read data: %0h", read_data), UVM_NONE)
     end else begin

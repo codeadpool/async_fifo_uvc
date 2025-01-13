@@ -2,7 +2,8 @@
 `define AFIFO_WR_DRIVER
 class afifo_wr_driver extends uvm_driver #(afifo_wr_txn);
   
-  virtual afifo_wr_driver_bfm m_bfm;
+  virtual afifo_wr_driver_bfm bfm;
+
   `uvm_component_utils(afifo_wr_driver)
 
   function new(string name = "afifo_wr_driver", uvm_component parent);
@@ -13,7 +14,7 @@ class afifo_wr_driver extends uvm_driver #(afifo_wr_txn);
     super.build_phase(phase);
     // the field BFM is to check in the config db 
     // we can change the path while setting LETS SUUUUUUI
-    if(!uvm_config_db#(virtual afifo_wr_driver_bfm)::get(this, "", "bfm", m_bfm))
+    if(!uvm_config_db#(virtual afifo_wr_driver_bfm)::get(this, "", "bfm", bfm))
       `uvm_fatal("afifo_wr_driver", "Failed to get BFM")
   endfunction : build_phase
 
@@ -26,7 +27,7 @@ endclass
 
 task afifo_wr_driver::run_phase (uvm_phase phase);
   seq_item_port.get(req);
-  m_bfm.do_write(req.wdata);
+  bfm.do_write(req.wdata);
   seq_item_port.item_done();
 endtask
 `endif
