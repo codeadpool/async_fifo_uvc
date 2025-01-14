@@ -10,7 +10,8 @@ The project is divided into two primary modules:
 * **`hvl_top`:** Houses the UVM testbench, including agents, drivers, and monitors. These components orchestrate the test sequence and verify the DUT's behavior. Communication with the `hdl_top` occurs through virtual interface handles via remote-proxy method.
 
 ```
-├── docs
+├── doc
+│   └── README.md
 ├── dut
 │   ├── fifomem.sv
 │   ├── fifo_top.sv
@@ -21,8 +22,11 @@ The project is divided into two primary modules:
 ├── README.md
 ├── sv
 │   ├── afifo_mcseqr.svh
+│   ├── afifo_pkg.sv
 │   ├── agents
-│   │   ├── r_agent
+│   │   ├── afifo_txn.svh
+│   │   ├── rd_agent
+│   │   │   ├── afifo_rd_agent_pkg.sv
 │   │   │   ├── afifo_rd_agent.svh
 │   │   │   ├── afifo_rd_driver_bfm.sv
 │   │   │   ├── afifo_rd_driver.svh
@@ -30,6 +34,7 @@ The project is divided into two primary modules:
 │   │   │   ├── afifo_rd_monitor.svh
 │   │   │   └── afifo_rd_txn.svh
 │   │   └── wr_agent
+│   │       ├── afifo_wr_agent_pkg.sv
 │   │       ├── afifo_wr_agent.svh
 │   │       ├── afifo_wr_driver_bfm.sv
 │   │       ├── afifo_wr_driver.svh
@@ -37,18 +42,25 @@ The project is divided into two primary modules:
 │   │       ├── afifo_wr_monitor.svh
 │   │       └── afifo_wr_txn.svh
 │   └── top
+│       ├── afifo_env_pkg.sv
 │       ├── afifo_env.svh
 │       └── afifo_scoreboard.svh
 ├── tb
 │   ├── afifo_if.sv
+│   ├── afifo_tb_pkg.sv
+│   ├── clkgen.sv
+│   ├── dut_harness.sv
 │   ├── hw_top.sv
+│   ├── tb_params_pkg.sv
 │   └── tb_top.sv
 └── tests
     ├── seq_lib
-    │   ├── afifo_base_rd_seq.svh
-    │   ├── afifo_base_wr_seq.svh
-    │   └── afifo_mcseq_lib.svh
+    │   ├── afifo_seq_lib.svh
+    │   ├── afifo_seq_pkg.sv
+    │   └── afifo_vseq_lib.svh
     └── src
+        ├── afifo_test_base.sv
+        └── afifo_test_pkg.sv
 ```
 
 ## Key Verification Methodologies
